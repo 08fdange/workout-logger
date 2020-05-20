@@ -18,5 +18,3 @@ group :test do
   gem 'rack-test'
   gem 'database_cleaner'
 end
-
-#, '~> 4.2', '>= 4.2.6', :require => 'active_record'
