@@ -19,6 +19,30 @@
     line-height: 18px;
   }
 
+  .wo-logger {
+    font-family: roboto;
+    font-style: bold;
+  }
+  .topnav {
+    background-color: rgb(158, 158, 158);
+    overflow: hidden;
+  }
+
+  .topnav a {
+    float: left;
+    color: #000000;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  
+  .topnav a:hover {
+    background-color: rgb(212, 211, 211);
+    color: rgb(19, 192, 192);
+  }
+
   .wrapper {
     background: #fff;
     -moz-box-shadow: 0 0 10px rgba(0,0,0,.3);

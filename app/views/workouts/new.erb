@@ -1,0 +1,19 @@
+<h1>Create a New Workout</h1>
+<form action='/workouts/new' method='post'>
+    <p>Name your workout: <input type='text' name='title'></p>
+    <% if @exercises.exists? %>
+    <p>Choose your exercises: </p>
+        <% @exercises.each do |exercise| %>
+            <br><input type='checkbox' name='workout[exercise_ids][]' id='<%= exercise.id %>' value='<%= exercise.id %>'>
+            <%= exercise.exercise_name %>
+        <% end %>
+    <% end %>
+    <br>
+    <p>Create new exercises: </p>
+    <p>Exercise name: <input type=text name='exercise[exercise_name]' id='exercise_name'></p>
+    <p>Exercise name: <input type=text name='exercise[exercise_name2]' id='exercise_name2'></p>
+    <p>Exercise name: <input type=text name='exercise[exercise_name3]' id='exercise_name3'></p>
+    <p>Exercise name: <input type=text name='exercise[exercise_name4]' id='exercise_name4'></p>
+    <br>
+    <input type='submit' value='Submit'>
+</form>

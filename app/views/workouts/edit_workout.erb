@@ -1,0 +1,5 @@
+<form action='/workouts/<%= @workout.id %>' method='post'>
+    <input type='hidden' name='_method' value= "patch">
+    <p>Change Workout Name: <input type='text' name='title' value= <%= @workout.title %></p>
+    <input type='submit' value='Submit'>
+</form>

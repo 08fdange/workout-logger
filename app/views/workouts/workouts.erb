@@ -1,0 +1,6 @@
+<% @workouts.each do |workout| %>
+    <h2><a href='/workouts/<%= workout.id %>'><%= workout.title %></a></h2>
+    <% workout.exercises.each do |exercise| %>
+       <p><%= exercise.exercise_name %></p><br>
+    <% end %>
+<% end %>

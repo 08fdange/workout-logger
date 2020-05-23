@@ -10,16 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_19_232313) do
+ActiveRecord::Schema.define(version: 2020_05_21_215741) do
+
+  create_table "exercises", force: :cascade do |t|
+    t.string "exercise_name"
+    t.integer "rep"
+  end
+
+  create_table "exercises_workouts", id: false, force: :cascade do |t|
+    t.integer "workout_id"
+    t.integer "exercise_id"
+    t.index ["exercise_id"], name: "index_exercises_workouts_on_exercise_id"
+    t.index ["workout_id"], name: "index_exercises_workouts_on_workout_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
-    t.string "password"
+    t.string "password_digest"
     t.string "email"
   end
 
   create_table "workouts", force: :cascade do |t|
-    t.string "content"
+    t.string "title"
     t.integer "user_id"
   end
 

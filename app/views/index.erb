@@ -1,1 +1,19 @@
-<h1>Welcome to Workout Logger!</h1>
+<% if logged_in? %>
+    <h1 class="wo-logger">Workout logger</h1>
+    <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/workouts">Your Workouts</a>
+        <a href="/workouts/new">New Workout</a>
+        <a href="/exercises">Exercises</a>
+    </div>
+    <br><br>
+    <p>WELCOME YOU ARE LOGGED IN</p>
+    <%= @user.username %>
+    <a href='/logout'>Log Out</a>
+<% else %>
+    <h1>Welcome to Workout Logger!</h1>
+    <img src='images/Arnold_Schwarzenegger.jpg' alt='Arnold Schwarzenegger' width='560' height='323'>
+    <h4>Please <a href='/signup'>sign up</a> or <a href='/login'>log in</a>.</h4>
+<% end %>
+
+
