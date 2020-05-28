@@ -14,8 +14,18 @@
     <link rel="stylesheet" href="/stylesheets/main.css"/>
   </head>
   <body>
+
+
     <div class="wrapper">
-        
+      <div class="topnav">
+        <a class="active" href="/">Home</a>
+        <a href="/workouts">Your Workouts</a>
+        <a href="/workouts/new">New Workout</a>
+        <a href="/exercises">Exercises</a>
+        <a href="/new_exercises">New Exercises</a>
+        <a href='/users/<%= @userslug %>'>Profile</a>
+      </div>  
+
       <%= yield %>
 
       <footer class="branding">

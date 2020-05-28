@@ -41,4 +41,15 @@ class UsersController < ApplicationController
         redirect to '/'
     end
 
+    get '/users/:slug' do
+        @user = User.find_by_slug(params[:slug])
+        erb :'/users/show'
+    end
+
+    #get '/users/:slug/edit_bio' do
+        #@user = User.find_by_slug(params[:slug])
+        #if logged_in? && @user == User.find_by_id(session[user_id])
+        #erb :'users/:slug/edit_bio'
+    #end
+
 end

@@ -10,20 +10,10 @@ class WorkoutsController < ApplicationController
     end
 
     post '/workouts/new' do
-        @user = User.find(session[:user_id])
+        @user = User.find_by_id(session[:user_id])
         @workout = Workout.create(title: params[:title], user_id: @user.id)
-        if !params['exercise']['exercise_name'].empty?
-            @workout.exercises << Exercise.create(exercise_name: params['exercise']['exercise_name'])
-        end
-        if !params['exercise']['exercise_name2'].empty?
-            @workout.exercises << Exercise.create(exercise_name: params['exercise']['exercise_name2'])
-        end
-        if !params['exercise']['exercise_name3'].empty?
-            @workout.exercises << Exercise.create(exercise_name: params['exercise']['exercise_name3'])
-        end
-        if !params['exercise']['exercise_name4'].empty?
-            @workout.exercises << Exercise.create(exercise_name: params['exercise']['exercise_name4'])
-        end
+        #binding.pry
+        params['exercise'].values.each {|name| @workout.exercises << Exercise.create(exercise_name: name) if name.present?}
         redirect to '/workouts'
     end
 
@@ -48,15 +38,19 @@ class WorkoutsController < ApplicationController
         erb :'/workouts/show_workout'
     end
 
-    delete '/workouts/:id/delete' do
+    delete '/workouts/:id' do
         @workout = Workout.find(params[:id])
         @workout.delete
         redirect to '/workouts'
     end
 
     get '/workouts/:id/edit' do
-        @workout = Workout.find(params[:id])
-        erb :'/workouts/edit_workout'
+        @workout = Workout.find_by(id: params[:id])
+        if @workout && @workout.user_id == sessions[:user_id]
+            erb :'/workouts/edit_workout'
+        else
+            redirect to '/workouts'
+        end
     end
 
     patch '/workouts/:id' do

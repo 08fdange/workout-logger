@@ -1,4 +1,10 @@
 <h1>Exercises</h1>
 <% @exercises.each do |exercise| %>
     <a href='/exercises/<%= exercise.id %>'><%= exercise.exercise_name %></a><br>
+    <% if admin? %>
+        <form method='post' action="/exercises/<%= exercise.id %>">
+            <input type='hidden' name='_method' value='delete'>
+            <input type='submit' value='DELETE'>
+        </form>
+    <% end %>
 <% end %>

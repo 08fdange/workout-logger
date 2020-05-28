@@ -1,14 +1,15 @@
 <% if logged_in? %>
-    <h1 class="wo-logger">Workout logger</h1>
-    <div class="topnav">
-        <a class="active" href="/">Home</a>
-        <a href="/workouts">Your Workouts</a>
-        <a href="/workouts/new">New Workout</a>
-        <a href="/exercises">Exercises</a>
-    </div>
-    <br><br>
-    <p>WELCOME YOU ARE LOGGED IN</p>
-    <%= @user.username %>
+    <h1 class="wo-logger">Workout logger - Welcome <%= @user.username %>!</h1>
+    
+    <br>
+    <h2>Workouts</h2>
+    <% @workouts.each do |workout| %>
+        <% @user_of_workout = User.find(workout.user_id) %>
+        <h3><%= workout.title %> - <a href='/users/<%= @user_of_workout.slug %>'><%= @user_of_workout.username %></a></h3>
+        <% workout.exercises.each do |exercise| %>
+            <p><%= exercise.exercise_name %><p>
+        <% end %>
+    <% end %>
     <a href='/logout'>Log Out</a>
 <% else %>
     <h1>Welcome to Workout Logger!</h1>

@@ -11,9 +11,12 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     if logged_in?
+      @workouts = Workout.all
       @user = User.find(session[:user_id])
+      @userslug = @user.slug
     else
       @user = nil
+      @userslug = nil
     end
     erb :index
   end
@@ -28,5 +31,10 @@ class ApplicationController < Sinatra::Base
         @current_user = session[:user_id]
       end
     end
+
+    def admin?
+      admin = User.find_by(username: "08fdange")
+      session[:user_id] == admin.id
+    end 
   end
 end

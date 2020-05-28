@@ -9,6 +9,7 @@ class ExercisesController < ApplicationController
     end
 
     get '/exercises/:id' do
+        admin = User.find_by(username: '08fdange')
         if logged_in?
             @exercise = Exercise.find(params[:id])
             erb :'/exercises/show'
@@ -17,10 +18,27 @@ class ExercisesController < ApplicationController
         end
     end
 
-    delete '/exercises/:id' do
-        @exercise = Exercise.find(params[:id])
-        @exercise.delete
+    get '/new_exercises' do
+        if logged_in?
+            erb :'/exercises/new'
+        end
+    end
+
+    post '/exercises' do
+        params['exercises'].each do |key, value|
+            if value['exercise_name'].present?
+                Exercise.create(value)
+            end
+        end
         redirect to '/exercises'
+    end
+
+    delete '/exercises/:id' do
+        if admin?
+            @exercise = Exercise.find(params[:id])
+            @exercise.delete
+            redirect to '/exercises'
+        end
     end
 
 end
