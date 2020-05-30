@@ -1,6 +1,6 @@
 <h1><%= @workout.title %></h1>
 <% @workout.exercises.each do |exercise| %>
-    <%= exercise.exercise_name %><br>
+    <a href='/exercises/<%= exercise.id %>'><%= exercise.exercise_name %></a><br>
 <% end %>
 <a href='/workouts/<%= @workout.id %>/edit'>EDIT</a>
 <form method='post' action="/workouts/<%= @workout.id %>">

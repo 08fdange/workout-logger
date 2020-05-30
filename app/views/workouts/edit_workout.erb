@@ -1,5 +1,15 @@
+<h1>Edit Workout</h1>
 <form action='/workouts/<%= @workout.id %>' method='post'>
     <input type='hidden' name='_method' value= "patch">
     <p>Change Workout Name: <input type='text' name='title' value= <%= @workout.title %>></p>
-    <input type='submit' value='Submit'>
+    <% if @exercises.exists? %>
+        <p>Choose your exercises: </p>
+        <% @exercises.each do |exercise| %>
+            <br><input type='checkbox' name='workout[exercise_ids][]' id='<%= exercise.id %>' value='<%= exercise.id %>'
+            <% if @workout.exercises.include?(exercise) %>
+                checked
+            <% end %>><%= exercise.exercise_name %>
+        <% end %>
+    <% end %><br>
+    <input type='submit' value='SUBMIT'>
 </form>

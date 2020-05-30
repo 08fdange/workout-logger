@@ -34,19 +34,24 @@ class WorkoutsController < ApplicationController
     end
 
     get '/workouts/:id' do
-        @workout = Workout.find(params[:id])
-        erb :'/workouts/show_workout'
+        if logged_in?
+            @workout = Workout.find_by(id: params[:id])
+            erb :'/workouts/show_workout'
+        end
     end
 
     delete '/workouts/:id' do
-        @workout = Workout.find(params[:id])
-        @workout.delete
-        redirect to '/workouts'
+        if logged_in?
+            @workout = Workout.find_by(id: params[:id])
+            @workout.delete
+            redirect to '/workouts'
+        end
     end
 
     get '/workouts/:id/edit' do
         @workout = Workout.find_by(id: params[:id])
-        if @workout && @workout.user_id == sessions[:user_id]
+        @exercises = Exercise.all
+        if @workout && @workout.user_id == session[:user_id]
             erb :'/workouts/edit_workout'
         else
             redirect to '/workouts'
@@ -54,9 +59,12 @@ class WorkoutsController < ApplicationController
     end
 
     patch '/workouts/:id' do
-        @workout = Workout.find(params[:id])
-        @workout.title = params[:title]
-        @workout.save
-        redirect to "/workouts/#{@workout.id}"
+        if logged_in?
+            @workout = Workout.find_by(id: params[:id])
+            @workout.title = params[:title] if params[:title].present?
+            @workout.exercises = params['exercises']
+            @workout.save
+            redirect to "/workouts/#{@workout.id}"
+        end
     end
 end

@@ -5,7 +5,7 @@
     <h2>Workouts</h2>
     <% @workouts.each do |workout| %>
         <% @user_of_workout = User.find(workout.user_id) %>
-        <h3><%= workout.title %> - <a href='/users/<%= @user_of_workout.slug %>'><%= @user_of_workout.username %></a></h3>
+        <h3><a href='/workouts/<%= workout.id %>'><%= workout.title %></a> - <a href='/users/<%= @user_of_workout.slug %>'><%= @user_of_workout.username %></a></h3>
         <% workout.exercises.each do |exercise| %>
             <p><%= exercise.exercise_name %><p>
         <% end %>

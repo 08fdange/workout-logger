@@ -1,6 +1,9 @@
 <h1><%= @exercise.exercise_name %></h1>
-<h2><%= @exercise.description %></h2>
-<h2><%= @exercise.exercise_type %></h2>
+<p><%= @exercise.description %></p>
+<% if @exercise.exercise_type.present? %>   
+    <p>Type: <%= @exercise.exercise_type %></p>
+<% end %>
+<a href='/exercises/<%= @exercise.id %>/edit'>EDIT</a>
 <% if admin? %>
     <form method='post' action="/exercises/<%= @exercise.id %>">
         <input type='hidden' name='_method' value='delete'>

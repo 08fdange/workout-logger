@@ -33,6 +33,22 @@ class ExercisesController < ApplicationController
         redirect to '/exercises'
     end
 
+    get '/exercises/:id/edit' do
+        @exercise = Exercise.find_by_id(params[:id])
+        if logged_in?
+            erb :'/exercises/edit'
+        end
+    end
+
+    patch '/exercises/:id' do
+        @exercise = Exercise.find_by_id(params[:id])
+        @exercise.exercise_name = params['exercise_name'] if params['exercise_name'].present?
+        @exercise.description = params['description'] if params['description'].present?
+        @exercise.exercise_type = params['exercise_type'] if params['exercise_type'].present?
+        @exercise.save
+        redirect to "/exercises/#{@exercise.id}"
+    end
+
     delete '/exercises/:id' do
         if admin?
             @exercise = Exercise.find(params[:id])

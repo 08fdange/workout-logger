@@ -1,0 +1,6 @@
+<h1>Edit your Bio</h1>
+<form action='/users/<%= @user.slug %>' method='post'>
+    <input type='hidden' name='_method' value='patch'>
+    <p>Bio: <input type='text' name='bio'></p>
+    <input type='submit' value='Submit'>
+</form>
