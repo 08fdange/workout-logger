@@ -1,7 +1,7 @@
 class ExercisesController < ApplicationController
     get '/exercises' do
         if logged_in?
-            @exercises = Exercise.all
+            @exercises = Exercise.all.sort_by {|exercise| exercise[:exercise_name]}
             erb :"/exercises/show_all"
         else 
             redirect to '/'
@@ -21,6 +21,8 @@ class ExercisesController < ApplicationController
     get '/new_exercises' do
         if logged_in?
             erb :'/exercises/new'
+        else
+            redirect to "/"
         end
     end
 

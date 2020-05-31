@@ -12,7 +12,7 @@ class WorkoutsController < ApplicationController
     post '/workouts/new' do
         @user = User.find_by_id(session[:user_id])
         @workout = Workout.create(title: params[:title], user_id: @user.id)
-        #binding.pry
+        @workout.update(params[:workout]) if params[:workout].present?
         params['exercise'].values.each {|name| @workout.exercises << Exercise.create(exercise_name: name) if name.present?}
         redirect to '/workouts'
     end
@@ -34,6 +34,7 @@ class WorkoutsController < ApplicationController
     end
 
     get '/workouts/:id' do
+        @user = User.find_by(id: session[:user_id])
         if logged_in?
             @workout = Workout.find_by(id: params[:id])
             erb :'/workouts/show_workout'
@@ -41,28 +42,31 @@ class WorkoutsController < ApplicationController
     end
 
     delete '/workouts/:id' do
-        if logged_in?
-            @workout = Workout.find_by(id: params[:id])
+        @user = User.find_by(id: session[:user_id])
+        @workout = Workout.find_by(id: params[:id])
+        if logged_in? && (@user.id == @workout.user_id || @user.username == "08fdange")
             @workout.delete
             redirect to '/workouts'
         end
     end
 
     get '/workouts/:id/edit' do
+        @user = User.find_by(id: session[:user_id])
         @workout = Workout.find_by(id: params[:id])
         @exercises = Exercise.all
-        if @workout && @workout.user_id == session[:user_id]
+        if @workout && (@workout.user_id == @user.id || @user.username == "08fdange")
             erb :'/workouts/edit_workout'
         else
-            redirect to '/workouts'
+            redirect back
         end
     end
 
     patch '/workouts/:id' do
-        if logged_in?
-            @workout = Workout.find_by(id: params[:id])
+        @user = User.find_by(id: session[:user_id])
+        @workout = Workout.find_by(id: params[:id])
+        if logged_in? && (@user.id == @workout.user_id || @user.username == "08fdange")
             @workout.title = params[:title] if params[:title].present?
-            @workout.exercises = params['exercises']
+            @workout.update(params[:workout]) if params[:workout].present?
             @workout.save
             redirect to "/workouts/#{@workout.id}"
         end

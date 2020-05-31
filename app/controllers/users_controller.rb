@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
     
+    get '/users/' do
+        redirect to '/'
+    end
+
     get '/signup' do
         if !logged_in?
             erb :'/users/signup'
@@ -60,8 +64,8 @@ class UsersController < ApplicationController
         @user.bio = params['bio']
         if logged_in? && @user == User.find_by_id(session[:user_id])
             @user.save
+            redirect to "/users/#{ @user.slug }"
         end
-        redirect to "/users/#{ @user.slug }"
     end
 
 end
