@@ -11,7 +11,7 @@ class ApplicationController < Sinatra::Base
 
   get "/" do
     if logged_in?
-      @workouts = Workout.all
+      @workouts = Workout.all.sort_by {|workout| workout.id}.reverse
       @user = User.find(session[:user_id])
       @userslug = @user.slug
     else
