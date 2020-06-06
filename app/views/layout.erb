@@ -15,7 +15,6 @@
   </head>
   <body>
 
-
     <div class="wrapper">
       <div class="topnav">
         <a class="active" href="/">Home</a>
@@ -23,7 +22,9 @@
         <a href="/workouts/new">New Workout</a>
         <a href="/exercises">Exercises</a>
         <a href="/new_exercises">New Exercises</a>
-        <a href='/users/<%= @userslug %>'>Profile</a>
+        <% if logged_in? %>
+          <a href='/users/<%= current_user.slug %>'>Profile</a>
+        <% end %>
       </div>  
 
       <%= yield %>

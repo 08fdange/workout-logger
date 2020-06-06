@@ -28,9 +28,7 @@ class ApplicationController < Sinatra::Base
 
     def current_user
       if session[:user_id]
-        @current_user = session[:user_id]
-        @userslug = User.find_by(id: session[:user_id]).slug
-        @current_user
+        @current_user = User.find_by(id: session[:user_id])
       end
     end
 
@@ -38,5 +36,11 @@ class ApplicationController < Sinatra::Base
       admin = User.find_by(username: "08fdange")
       session[:user_id] == admin.id
     end 
+
+    def redirect_logged_out
+      if !logged_in?
+        redirect to '/'
+      end
+    end
   end
 end

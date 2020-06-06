@@ -10,23 +10,22 @@ class WorkoutsController < ApplicationController
     end
 
     post '/workouts/new' do
-        @user = User.find_by_id(session[:user_id])
-        @workout = Workout.create(title: params[:title], user_id: @user.id)
-        @workout.update(params[:workout]) if params[:workout].present?
+        @user = User.find_by(id: params[:user_id])
+        @workout = Workout.new(title: params[:title], user_id: @user.id) 
+        if params[:workout].present?
+            params['workout']['exercise_ids'].each do |id|
+                @workout.exercises << Exercise.find(id)
+            end
+        end
         params['exercise'].values.each {|name| @workout.exercises << Exercise.create(exercise_name: name) if name.present?}
+        @workout.save
         redirect to '/workouts'
     end
 
     get '/workouts' do
         if logged_in?
             @user = User.find(session[:user_id])
-            @workouts = []
-            Workout.all.each do |workout|
-                if workout.user_id == @user.id
-                    @workouts << workout
-                end
-                @workouts
-            end    
+            @workouts = @user.workouts
             erb :"/workouts/workouts"
         else 
             redirect to '/'
@@ -35,10 +34,9 @@ class WorkoutsController < ApplicationController
 
     get '/workouts/:id' do
         @user = User.find_by(id: session[:user_id])
-        if logged_in?
-            @workout = Workout.find_by(id: params[:id])
-            erb :'/workouts/show_workout'
-        end
+        redirect_logged_out
+        @workout = Workout.find_by(id: params[:id])
+        erb :'/workouts/show_workout'
     end
 
     delete '/workouts/:id' do

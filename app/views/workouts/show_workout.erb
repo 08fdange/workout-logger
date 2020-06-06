@@ -2,7 +2,7 @@
 <% @workout.exercises.each do |exercise| %>
     <a href='/exercises/<%= exercise.id %>'><%= exercise.exercise_name %></a><br>
 <% end %>
-<% if @user.id == @workout.user_id || @user.username == "08fdange" %>
+<% if current_user.id == @workout.user_id || current_user.username == "08fdange" %>
     <a href='/workouts/<%= @workout.id %>/edit'>EDIT</a>
     <form method='post' action="/workouts/<%= @workout.id %>">
         <input type='hidden' name='_method' value='delete'>
